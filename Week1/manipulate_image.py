@@ -62,4 +62,4 @@ if __name__ == "__main__":
         with Image.open(image) as im:
             im = rotate_image(im, 90)
             im = resize_image(im)
-            save_image(im)
+            save_image(im, image)
