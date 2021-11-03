@@ -46,7 +46,7 @@ def save_image(image, destination=''):
     # check if destination already exists
     # if exist add timestamp to destination name
     if destination == "":
-        destination = str(datetime.now()) + str(image.format)
+        raise Exception("Destination cannot be empty")
 
     if os.path.isfile(destination):
         timestamp = int(datetime.now().timestamp())
@@ -62,4 +62,4 @@ if __name__ == "__main__":
         with Image.open(image) as im:
             im = rotate_image(im, 90)
             im = resize_image(im)
-            save_image(im, image)
+            save_image(im)
