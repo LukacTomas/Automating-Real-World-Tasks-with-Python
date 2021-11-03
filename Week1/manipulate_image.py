@@ -1,10 +1,15 @@
+#!/usr/bin/env python3
+# Google IT Automation with Python Professional Certificate
+# Tomas Lukac
+# 2021/11/3
+
 from PIL import Image
 import os
 import os.path
 from datetime import datetime
 
 
-def get_images_from_dir(dir='.', allowed_types=[".png", ".jpg", ".jpeg", ".bmp", ".webp"]):
+def get_images_from_dir(dir='.', allowed_types=[".png", ".jpg", ".jpeg", ".bmp", ".webp", ".tiff"]):
     """ Function for getting all images from current directory
     Args:
         dir (string): Set the working directory.
@@ -37,7 +42,7 @@ def rotate_image(image, degrees=0):
     return image.rotate(degrees)
 
 
-def save_image(image, destination=''):
+def save_image(image, destination='', extension="jpeg"):
     """Simple function for saving image object to destination
        Args:
        image (object): Image object from PIL.
@@ -51,19 +56,22 @@ def save_image(image, destination=''):
     if os.path.isfile(destination):
         timestamp = int(datetime.now().timestamp())
         dest_array = os.path.splitext(destination)
-        destination = dest_array[0] + str(timestamp) + dest_array[1]
-    image.save(destination)
+        destination = dest_array[0] + str(timestamp) + "." + extension
+    else:
+        destination = os.path.splitext(destination)[0] + "." + extension
+
+    image.save(destination, format=extension)
 
 
 if __name__ == "__main__":
     images = get_images_from_dir()
-    dir = "./images/"
+    dir = "./opt/icons/"
     if not os.path.exists(dir):
-        os.mkdir(dir)
+        os.makedirs(dir)
 
     for image in images:
         extension = os.path.splitext(image)[1]
-        with Image.open(image) as im:
-            im = rotate_image(im, 90)
-            im = resize_image(im)
+        with Image.open(image).convert('RGB') as im:
+            im = rotate_image(im, -90)
+            im = resize_image(im, (48, 48))
             save_image(im, dir + image)
