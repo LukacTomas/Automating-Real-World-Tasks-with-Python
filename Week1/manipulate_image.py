@@ -57,9 +57,13 @@ def save_image(image, destination=''):
 
 if __name__ == "__main__":
     images = get_images_from_dir()
+    dir = "./images/"
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
     for image in images:
         extension = os.path.splitext(image)[1]
         with Image.open(image) as im:
             im = rotate_image(im, 90)
             im = resize_image(im)
-            save_image(im, image)
+            save_image(im, dir + image)
