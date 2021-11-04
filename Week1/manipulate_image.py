@@ -9,7 +9,7 @@ import os.path
 from datetime import datetime
 
 
-def get_images_from_dir(dir='.', allowed_types=[".png", ".jpg", ".jpeg", ".bmp", ".webp", ".tiff"]):
+def get_images_from_dir(dir='.', allowed_types=["", ".png", ".jpg", ".jpeg", ".bmp", ".webp", ".tiff"]):
     """ Function for getting all images from current directory
     Args:
         dir (string): Set the working directory.
@@ -18,6 +18,7 @@ def get_images_from_dir(dir='.', allowed_types=[".png", ".jpg", ".jpeg", ".bmp",
     images = []
     for file in os.listdir(dir):
         extension = os.path.splitext(file)[1]
+        print(extension)
         if extension.lower() not in allowed_types:
             continue
         images.append(file)
@@ -64,6 +65,7 @@ def save_image(image, destination='', extension="jpeg"):
 
 
 if __name__ == "__main__":
+    dest = ""
     images = get_images_from_dir()
     dir = "./opt/icons/"
     if not os.path.exists(dir):
@@ -71,7 +73,7 @@ if __name__ == "__main__":
 
     for image in images:
         extension = os.path.splitext(image)[1]
-        with Image.open(image).convert('RGB') as im:
-            im = rotate_image(im, -90)
-            im = resize_image(im, (48, 48))
+        with Image.open(dest + image).convert('RGB') as im:
+            im = rotate_image(im, 270)
+            im = resize_image(im, (128, 128))
             save_image(im, dir + image)
